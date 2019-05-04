@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.model_selection import train_test_split
-from Features_Extraction import get_data
+from data_normalization import get_data
 
 
 data_set_path= "/home/hassan/Hassaan_Home/Digityfy_Projects/SER_Tech_Stuff/test"

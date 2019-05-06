@@ -1,23 +1,47 @@
 
 import tkinter as tk
 from tkinter import filedialog
-root = tk.Tk()
+
 import numpy as np
 import scipy.io.wavfile as wav
 from speechpy.feature import mfcc
 import soundfile as sf
 import os
 import pickle
+# from model_testing1 import testing
 
 mean_signal_length = 45000
 
+root = tk.Tk()
+
+
+def quit():
+    root.quit()
 
 def on_click():
     file1 = filedialog.askopenfilename()
     print(file1)
-    # label1 = tk.Label(text = file1).pack()
-    return file1
+    # print(type(file1))
+    # exit()
+    data =get_feature_vector_from_mfcc(file1)
 
+    pickle_in = open("/home/hassan/Hassaan_Home/My_Python_Projects/Speech_Project/My_ML_Models/SVM_Model.pickle", "rb")
+    model = pickle.load(pickle_in)
+
+    prediction = model.predict([data])[0]
+
+    if prediction == 0:
+        print("The prediction is" + " Angry")
+    elif prediction ==1:
+        print("The prediction is" + " happy")
+    elif prediction ==2:
+        print("The prediction is" + " Neutral")
+    else :
+        print("The prediction is" + " Sad")
+
+
+    label1 = tk.Label(text = prediction).pack()
+    # return file1
 
 def min_max_scalling(data):
     my_list = []
@@ -26,6 +50,7 @@ def min_max_scalling(data):
                        (np.max(data)-np.min(data)))
 
     return np.array(my_list)
+
 
 def get_feature_vector_from_mfcc(file_path: str, mfcc_len: int =45 ):
     # sf, signal = wav.read(file_path)
@@ -58,31 +83,12 @@ def get_feature_vector_from_mfcc(file_path: str, mfcc_len: int =45 ):
 
     return normalize_feature_vector
 
+if __name__ == "__main__":
+    # while(True):
+        button = tk.Button(root, text ="Open File ", width =30, command=on_click).pack()
+        button2 = tk.Button(root, text="Quit ", width=30, command = quit).pack()
+        root.title("Hello that is my title of the window . . .")
+        root.geometry("400x400")
+        root.mainloop()
 
-def testing():
-    print("Now i am in the testing method .  . . .")
-
-    pickle_in = open("/home/hassan/Hassaan_Home/My_Python_Projects/Speech_Project/My_ML_Models/SVM_Model.pickle", "rb")
-    model = pickle.load(pickle_in)
-
-    file_path = on_click()
-    file = "/home/hassan/Hassaan_Home/Digityfy_Projects/SER_Tech_Stuff/Audio_Speech_Actors_01-24/Actor_01/03-01-01-01-01-01-01.wav"
-    data = get_feature_vector_from_mfcc(file_path)
-
-    prediction = model.predict([data])[0]
-
-    if prediction == 0:
-        print("The prediction is" + " Angry")
-    elif prediction ==1:
-        print("The prediction is" + " happy")
-    elif prediction ==2:
-        print("The prediction is" + " Neutral")
-    else :
-        print("The prediction is" + " Sad")
-
-button = tk.Button(root, text ="Open File ", width =30, command=on_click).pack()
-root.title("Hello that is my title of the window . . .")
-root.geometry("400x400")
-root.mainloop()
-testing()
 

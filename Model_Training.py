@@ -2,7 +2,6 @@ import numpy as np
 import pickle
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
-from sklearn.svm import LinearSVC
 from data_spliting import extract_data
 from sklearn.svm import SVC
 

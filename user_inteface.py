@@ -8,8 +8,8 @@ import pickle
 
 mean_signal_length = 45000
 
-
 def min_max_scalling(data):
+
     my_list = []
     for value in data:
         my_list.append((value - np.min(data)) /
@@ -61,7 +61,7 @@ def main_interface():
     msg = Message(master, text=my_text)
     msg.config(justify=CENTER, font=('times', 25, 'italic'))
     msg.pack()
-    main_button = Button(master, text="Click me to get statrted", bg='black', fg='white', command=file_selection)
+    main_button = Button(master, text="Click here to get started", bg='black', fg='white', command=file_selection)
     main_button.place(x=160, y=160)
     master.mainloop()
 
@@ -86,13 +86,29 @@ def file_procssing():
     file1 = filedialog.askopenfilename()
     if not file1 :
         mainloop()
-    print(file1)
+    # print(file1)
+
+    extension = file1.split(".")[1]
+    print(extension)
+    print(type(extension))
+
+    if extension != "wav":
+        print("lala a gyea haan")
+        msg = Message(master2, text="Select only .wav file")
+        msg.config(justify=CENTER, width=400, font=('times', 15, 'italic'))
+        msg.place(x=170, y=120)
+        mainloop()
+
+
+
     data = get_feature_vector_from_mfcc(file1)
 
     pickle_in = open("/home/hassan/Hassaan_Home/My_Python_Projects/Speech_Project/My_ML_Models/SVM_Model.pickle", "rb")
     model = pickle.load(pickle_in)
 
     prediction = model.predict([data])[0]
+    print("Hello word")
+    print(prediction)
 
     if prediction == 0:
         output = "Predicted Emotion :" + "Angry"+" "

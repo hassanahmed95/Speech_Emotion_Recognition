@@ -4,7 +4,6 @@ from speechpy.feature import mfcc
 import soundfile as sf
 import os
 
-
 mean_signal_length = 45000
 Data_Source = "/home/hassan/Hassaan_Home/Digityfy_Projects/SER_Tech_Stuff/berlin_dataset"
 
@@ -53,7 +52,6 @@ def get_data (data_path =Data_Source,  mfcc_len= 45, class_labels=("Angry","Happ
     os.chdir(data_path)
     for i, directory in enumerate(class_labels):
         os.chdir(directory)
-        print(directory)
 
         for filename in os.listdir('.'):
             # print(filename)
@@ -70,6 +68,6 @@ def get_data (data_path =Data_Source,  mfcc_len= 45, class_labels=("Angry","Happ
 
 
 if __name__ == "__main__":
+    data, labels = get_data(Data_Source)
 
-        data, labels = get_data(Data_Source)
-#         # print(len(data))
+

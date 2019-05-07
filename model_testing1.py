@@ -8,7 +8,7 @@ import pickle
 mean_signal_length = 45000
 
 
-short_file_path = "/home/hassan/Hassaan_Home/Digityfy_Projects/SER_Tech_Stuff/berlin_dataset/Sad/15a02Ta.wav"
+short_file_path = "/home/hassan/Hassaan_Home/Digityfy_Projects/SER_Tech_Stuff/berlin_dataset/Angry/03a01Wa.wav"
 long_file_path = "/home/hassan/Hassaan_Home/Digityfy_Projects/SER_Tech_Stuff/Audio_Song_Actors_01-24/Actor_03/03-02-06-02-02-02-03.wav"
 
 

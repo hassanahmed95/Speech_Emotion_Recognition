@@ -6,7 +6,7 @@ import soundfile as sf
 from speechpy.feature import mfcc
 import pickle
 
-mean_signal_length =  45000
+mean_signal_length = 45000
 
 
 def min_max_scalling(data):

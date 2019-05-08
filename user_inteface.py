@@ -8,6 +8,7 @@ import pickle
 
 mean_signal_length = 45000
 
+
 def min_max_scalling(data):
 
     my_list = []
@@ -61,10 +62,9 @@ def main_interface():
     msg = Message(master, text=my_text)
     msg.config(justify=CENTER, font=('times', 25, 'italic'))
     msg.pack()
-    main_button = Button(master, text="Click here to get started", bg='black', fg='white', command=file_selection)
+    main_button = Button(master, text="Click here to get started", bg='black',fg='white', command=file_selection)
     main_button.place(x=160, y=160)
     master.mainloop()
-
 
 def file_selection():
     global master2
@@ -99,8 +99,6 @@ def file_procssing():
         msg.place(x=170, y=120)
         mainloop()
 
-
-
     data = get_feature_vector_from_mfcc(file1)
 
     pickle_in = open("/home/hassan/Hassaan_Home/My_Python_Projects/Speech_Project/My_ML_Models/SVM_Model.pickle", "rb")
@@ -110,14 +108,14 @@ def file_procssing():
     print("Hello word")
     print(prediction)
 
-    if prediction == 0:
-        output = "Predicted Emotion :" + "Angry"+" "
+    if prediction == 0:   
+        output = "Predicted Emotion :" + "Angry"+"  "
     elif prediction == 1:
-        output = "Predicted Emotion :" + "happy"+" "
+        output = "Predicted Emotion :" + "happy "+"  "
     elif prediction == 2:
-        output = "Predicted Emotion :" + "Neutral"+"   "
+        output = "Predicted Emotion :" + "Neutral"+"    "
     else:
-        output = "Predicted Emotion :" + " Sad  "+"    "
+        output = "Predicted Emotion :" + " Sad   "+"     "
 
     msg = Message(master2, text=output)
     msg.config(justify=CENTER, width=400, font=('times', 15, 'italic'))

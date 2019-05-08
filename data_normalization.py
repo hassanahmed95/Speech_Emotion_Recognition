@@ -29,7 +29,6 @@ def get_feature_vector_from_mfcc(file_path: str, mfcc_len: int ):
         pad_rem = pad_len % 2
         signal = np.pad(signal, (pad_len, pad_len + pad_rem),
                         'constant', constant_values=0)
-
     else:
         pad_len = s_len - mean_signal_length
         pad_len //= 2

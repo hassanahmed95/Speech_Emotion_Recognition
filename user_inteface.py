@@ -35,7 +35,7 @@ def get_feature_vector_from_mfcc(file_path: str, mfcc_len: int =45 ):
                         'constant', constant_values=0)
 
     else:
-        print("I am in the else loop")
+        # print("I am in the else loop")
         pad_len = s_len - mean_signal_length
         pad_len //= 2
 
@@ -43,7 +43,7 @@ def get_feature_vector_from_mfcc(file_path: str, mfcc_len: int =45 ):
 
     mel_coefficients = mfcc(signal, fs, num_cepstral=mfcc_len)
     mel_coefficients = np.ravel(mel_coefficients)
-    normalize_feature_vector= min_max_scalling(mel_coefficients)
+    normalize_feature_vector = min_max_scalling(mel_coefficients)
 
     return normalize_feature_vector
 
@@ -84,16 +84,16 @@ def file_selection():
 def file_procssing():
 
     file1 = filedialog.askopenfilename()
+
+
     if not file1 :
         mainloop()
     # print(file1)
 
     extension = file1.split(".")[1]
-    print(extension)
-    print(type(extension))
 
     if extension != "wav":
-        print("lala a gyea haan")
+
         msg = Message(master2, text="Select only .wav file")
         msg.config(justify=CENTER, width=400, font=('times', 15, 'italic'))
         msg.place(x=170, y=120)
@@ -105,10 +105,8 @@ def file_procssing():
     model = pickle.load(pickle_in)
 
     prediction = model.predict([data])[0]
-    print("Hello word")
-    print(prediction)
 
-    if prediction == 0:   
+    if prediction == 0:
         output = "Predicted Emotion :" + "Angry"+"  "
     elif prediction == 1:
         output = "Predicted Emotion :" + "happy "+"  "
@@ -117,11 +115,13 @@ def file_procssing():
     else:
         output = "Predicted Emotion :" + " Sad   "+"     "
 
+    print(output)
+
     msg = Message(master2, text=output)
     msg.config(justify=CENTER, width=400, font=('times', 15, 'italic'))
     msg.place(x=150, y=120)
 
 
-if __name__ =='__main__':
+if __name__ == '__main__':
 
     main_interface()

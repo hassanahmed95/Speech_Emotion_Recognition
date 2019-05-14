@@ -15,7 +15,6 @@ def extract_data():
         labels,
         test_size=0.2,
         random_state=42)
-
     # print(len(class_labels))
     return np.array(x_train), np.array(x_test), np.array(y_train), np.array(
         y_test), len(class_labels)

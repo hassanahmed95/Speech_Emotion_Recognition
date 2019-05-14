@@ -5,10 +5,10 @@ import soundfile as sf
 import os
 import pickle
 
-mean_signal_length = 45000
+mean_signal_length = 150243
 
 
-short_file_path = "/home/hassan/Hassaan_Home/Digityfy_Projects/SER_Tech_Stuff/berlin_dataset/Angry/03a01Wa.wav"
+short_file_path = "/home/hassan/Hassaan_Home/ML_Datasets/SER_Dataset/Complete_Prepared_Dataset/Testing_Data/Angry/KL_angry_a09.wav"
 long_file_path = "/home/hassan/Hassaan_Home/Digityfy_Projects/SER_Tech_Stuff/Audio_Song_Actors_01-24/Actor_03/03-02-06-02-02-02-03.wav"
 
 
@@ -20,13 +20,14 @@ def min_max_scalling(data):
 
     return np.array(my_list)
 
-def get_feature_vector_from_mfcc(file_path: str, mfcc_len: int =45 ):
+
+def get_feature_vector_from_mfcc(file_path: str, mfcc_len: int =70 ):
     # sf, signal = wav.read(file_path)
     signal, fs = sf.read(file_path)
     s_len = len(signal)
     print(s_len)
     print(fs)
-    fs= 16000
+    fs= 48000
     # exit()
 
     if s_len < mean_signal_length:
@@ -53,10 +54,10 @@ def get_feature_vector_from_mfcc(file_path: str, mfcc_len: int =45 ):
 
     return normalize_feature_vector
 
-
+#my that method has been implemented just to perform the tetign
 def testing():
 
-    pickle_in = open("/home/hassan/Hassaan_Home/My_Python_Projects/Speech_Project/My_ML_Models/SVM_Model.pickle", "rb")
+    pickle_in = open("My_ML_Models/SVM_Model_Updated.pickle", "rb")
     model = pickle.load(pickle_in)
     file = short_file_path
     # file = long_file_path

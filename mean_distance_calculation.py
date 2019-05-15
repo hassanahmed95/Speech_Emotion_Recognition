@@ -4,10 +4,12 @@ import numpy as np
 from shutil import copyfile
 import shutil
 from speechpy.feature import mfcc
+
+
 def finding_mean_length():
     root_path = "/home/hassan/Hassaan_Home/ML_Datasets/SER_Dataset/Complete_Prepared_Dataset/test_training"
     signal_data = []
-    sample_rate =[]
+    sample_rate = []
 
     all_folders = os.listdir(root_path)
     for i in all_folders:
@@ -46,7 +48,7 @@ def merging_files():
         base_name = os.path.basename(file_name)
         # os.rename(base_name, "DC"+ base_name)
         data_split= base_name.split(".")[0][0]
-        data_split2 =  base_name.split(".")[0][1]
+        # data_split2 =  base_name.split(".")[0][1]
         if data_split == "a" :#and data_split2 =='a':
             shutil.copy2(file_name, copied_path)
 
@@ -69,17 +71,14 @@ def complex_file_iteration(): #method for the datasets of speeches and songs (la
     happy_path=  "/home/hassan/Hassaan_Home/ML_Datasets/SER_Dataset/copied_data/happy_emotion"
     neutral_path=  "/home/hassan/Hassaan_Home/ML_Datasets/SER_Dataset/copied_data/neutral_emotion"
     sad_path=  "/home/hassan/Hassaan_Home/ML_Datasets/SER_Dataset/copied_data/sad_emotion"
-    r = []
+
     for root, dirs, files in os.walk(root_path):
 
         for name in files:
             filename = (os.path.join(root, name))
-            r.append(filename)
-
             base_name = os.path.basename(filename)
             print(base_name)
             expression_id = (base_name.split('.')[0][7])
-
             # shutil.copy2(filename,copied_path)
             print(expression_id)
 
@@ -100,28 +99,5 @@ if __name__ == '__main__':
     # changing_file_names()
     # complex_file_iteration()
     #that method has been written to get the mean length of audio signal
-    # finding_mean_length()
+    finding_mean_length()
 
-    mean_signal_length= 150243
-    file_name= "/home/hassan/Hassaan_Home/ML_Datasets/SER_Dataset/Complete_Prepared_Dataset/Training_Data/03-01-02-01-02-02-05.wav"
-    signal, fs = sf.read(file_name)
-    s_len = len(signal)
-
-    signal = np.ravel(signal)
-    print(signal.shape)
-    if s_len < mean_signal_length:
-        pad_len = mean_signal_length - s_len
-        pad_len //= 2
-        pad_rem = pad_len % 2
-        signal = np.pad(signal, (pad_len, pad_len + pad_rem),
-                        'constant', constant_values=0)
-    else:
-        pad_len = s_len - mean_signal_length
-        pad_len //= 2
-
-        signal = signal[pad_len:pad_len + mean_signal_length]
-    # print(len(signal))
-
-    mel_coefficients = mfcc(signal, fs, num_cepstral=70)
-    mel_coefficients = np.ravel(mel_coefficients)
-    print(mel_coefficients.shape)

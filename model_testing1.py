@@ -5,11 +5,11 @@ import soundfile as sf
 import os
 import pickle
 
+file_path = "/home/hassan/Hassaan_Home/ML_Datasets/SER_Dataset/Complete_Prepared_Dataset/Testing_Data"
+
 mean_signal_length = 150243
 
-
-short_file_path = "/home/hassan/Hassaan_Home/ML_Datasets/SER_Dataset/Complete_Prepared_Dataset/Testing_Data/Angry/KL_angry_a09.wav"
-long_file_path = "/home/hassan/Hassaan_Home/Digityfy_Projects/SER_Tech_Stuff/Audio_Song_Actors_01-24/Actor_03/03-02-06-02-02-02-03.wav"
+prediction_labels =[]
 
 
 def min_max_scalling(data):
@@ -25,10 +25,8 @@ def get_feature_vector_from_mfcc(file_path: str, mfcc_len: int =70 ):
     # sf, signal = wav.read(file_path)
     signal, fs = sf.read(file_path)
     s_len = len(signal)
-    print(s_len)
-    print(fs)
-    fs= 48000
-    # exit()
+
+    fs = 48000
 
     if s_len < mean_signal_length:
         # print("I am in the if loop, for the features padding")
@@ -43,42 +41,57 @@ def get_feature_vector_from_mfcc(file_path: str, mfcc_len: int =70 ):
         pad_len //= 2
         signal = signal[pad_len:pad_len + mean_signal_length]
 
-    print(len(signal))
-
     mel_coefficients = mfcc(signal, fs, num_cepstral= mfcc_len)
-    print(len(mel_coefficients))
     mel_coefficients = np.ravel(mel_coefficients)
-    print(len(mel_coefficients))
     normalize_feature_vector = min_max_scalling(mel_coefficients)
-    # print((normalize_feature_vector))
-
     return normalize_feature_vector
 
-#my that method has been implemented just to perform the tetign
+#my that method has been implemented just to perform the testing
+
 def testing():
 
     pickle_in = open("My_ML_Models/SVM_Model_Updated.pickle", "rb")
     model = pickle.load(pickle_in)
-    file = short_file_path
-    # file = long_file_path
-    data = get_feature_vector_from_mfcc(file)
+    class_labels = ("Angry", "Happy", "Neutral", "Sad")
+    os.chdir(file_path)
+    for directory in class_labels:
+        os.chdir(directory)
+        for filename in os.listdir('.'):
+            # print(filename)
+            filepath = os.getcwd() + '/' + filename
+            data = get_feature_vector_from_mfcc(filepath)
+            prediction = model.predict([data])[0]
+            prediction_labels.append(prediction)
+            # print(prediction)
+        os.chdir("..")
 
-    prediction = model.predict([data])[0]
-
-    if prediction == 0:
-        return ("The prediction is" + " Angry")
-    elif prediction ==1:
-        return ("The prediction is" + " happy")
-    elif prediction ==2:
-        return ("The prediction is" + " Neutral")
-    else :
-        return ("The prediction is" + " Sad")
+    return prediction_labels
 
 
-    # return prediction
+def calculating_accuracy():
+
+    with open("/home/hassan/Hassaan_Home/My_Python_Projects/Speech_Emotion/Testing_labels/testing_labels2.txt","rb") as f:
+        testing_labels = pickle.load(f)
+
+    predictions = testing()
+
+    print(len(testing_labels))
+    print(len(predictions))
+    count = 0.0
+    correct = 0
+    for i in range(len(predictions)):
+        count = count + 1
+        if testing_labels[i] == predictions[i]:
+            correct = correct + 1
+
+    M = correct / count
+    Accuray = M * 100
+    print("Accuracy is ", Accuray, " percent")
+    print("Everything is done. . . . . .")
+
 
 if __name__ == "__main__":
-    result =  testing()
-    print(result)
+
+    calculating_accuracy()
 
 
